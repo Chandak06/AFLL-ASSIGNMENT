@@ -3,6 +3,7 @@ from lexer import tokens
 
 def p_program(p):
     '''program : function_call'''
+    p[0]=p[1]
     print("Valid function call:", p[1])
 
 def p_function_call(p):
