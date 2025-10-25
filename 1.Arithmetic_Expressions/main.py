@@ -16,8 +16,9 @@ if __name__ == "__main__":
         lexer.input(data)
         try:
             result = parser.parse(data)
-            print("Parsed successfully")
             if result is not None:
                 print("Result:", result)
+            else:
+                print("Parsed successfully (No direct Result)")
         except Exception as e:
             print("Error:", e)

@@ -2,6 +2,7 @@ import ply.yacc as yacc
 from lexer import tokens
 
 variables = {}
+start = 'statement'
 
 def p_statements_multiple(p):
     'statements : statements statement'
@@ -75,6 +76,5 @@ def p_error(p):
         print(f"Syntax error at '{p.value}'")
     else:
         print("Syntax error at EOF")
-    exit(1)
 
 parser = yacc.yacc()
