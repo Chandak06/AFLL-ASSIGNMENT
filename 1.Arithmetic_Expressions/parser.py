@@ -2,15 +2,15 @@ import ply.yacc as yacc
 from lexer import tokens
 
 variables = {}
-start = 'statement'
+start = 'statements'
 
 def p_statements_multiple(p):
     'statements : statements statement'
-    p[0] = None
+    p[0] = p[1] + [p[2]]
 
 def p_statements_single(p):
     'statements : statement'
-    p[0] = None
+    p[0] = [p[1]]  
 
 def p_statement_assign(p):
     'statement : ID ASSIGN expression SEMICOLON'

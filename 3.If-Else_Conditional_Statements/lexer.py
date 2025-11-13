@@ -9,13 +9,12 @@ tokens = (
     'GT', 'LT', 'GE', 'LE', 'EQ', 'NE'
 )
 
-# Keywords
 reserved = {
     'if': 'IF',
     'else': 'ELSE',
+    'let': 'LET',
 }
 
-# Operators
 t_ASSIGN = r'='
 t_GT     = r'>'
 t_LT     = r'<'
@@ -24,7 +23,6 @@ t_LE     = r'<='
 t_EQ     = r'=='
 t_NE     = r'!='
 
-# Delimiters
 t_LPAREN   = r'\('
 t_RPAREN   = r'\)'
 t_LBRACE   = r'\{'

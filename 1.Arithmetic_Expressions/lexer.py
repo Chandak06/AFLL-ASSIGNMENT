@@ -16,7 +16,6 @@ t_MINUS   = r'-'
 t_TIMES   = r'\*'
 t_DIVIDE  = r'/'
 t_ASSIGN  = r'='
-
 t_SEMICOLON = r';'
 t_LPAREN   = r'\('
 t_RPAREN   = r'\)'
