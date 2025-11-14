@@ -1,19 +1,19 @@
 import ply.lex as lex
 
-tokens = (
+reserved = {
+    'let': 'LET',
+    'mut': 'MUT'
+}
+
+tokens = [
     'ID',
     'NUMBER',
     'ASSIGN',
-    'SEMICOLON',
-    'LET',
-)
+    'SEMICOLON'
+] + list(reserved.values())
 
-t_ASSIGN = r'='
-t_SEMICOLON = r';'
-
-reserved = {
-    'let': 'LET',
-}
+t_ASSIGN     = r'='
+t_SEMICOLON  = r';'
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
@@ -25,7 +25,7 @@ def t_NUMBER(t):
     t.value = int(t.value)
     return t
 
-t_ignore = ' \t'
+t_ignore = " \t"
 
 def t_newline(t):
     r'\n+'

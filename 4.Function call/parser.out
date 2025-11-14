@@ -4,28 +4,30 @@ Grammar
 
 Rule 0     S' -> program
 Rule 1     program -> function_call
-Rule 2     function_call -> IDENTIFIER LPAREN RPAREN
-Rule 3     function_call -> IDENTIFIER LPAREN arguments RPAREN
-Rule 4     arguments -> arguments COMMA expression
-Rule 5     arguments -> expression
-Rule 6     expression -> IDENTIFIER
+Rule 2     function_call -> ID LPAREN argument_list RPAREN
+Rule 3     argument_list -> <empty>
+Rule 4     argument_list -> arguments
+Rule 5     arguments -> arguments COMMA expression
+Rule 6     arguments -> expression
 Rule 7     expression -> NUMBER
-Rule 8     expression -> function_call
+Rule 8     expression -> ID
+Rule 9     expression -> function_call
 
 Terminals, with rules where they appear
 
-COMMA                : 4
-IDENTIFIER           : 2 3 6
-LPAREN               : 2 3
+COMMA                : 5
+ID                   : 2 8
+LPAREN               : 2
 NUMBER               : 7
-RPAREN               : 2 3
+RPAREN               : 2
 error                : 
 
 Nonterminals, with rules where they appear
 
-arguments            : 3 4
-expression           : 4 5
-function_call        : 1 8
+argument_list        : 2
+arguments            : 4 5
+expression           : 5 6
+function_call        : 1 9
 program              : 0
 
 Parsing method: LALR
@@ -34,10 +36,9 @@ state 0
 
     (0) S' -> . program
     (1) program -> . function_call
-    (2) function_call -> . IDENTIFIER LPAREN RPAREN
-    (3) function_call -> . IDENTIFIER LPAREN arguments RPAREN
+    (2) function_call -> . ID LPAREN argument_list RPAREN
 
-    IDENTIFIER      shift and go to state 3
+    ID              shift and go to state 3
 
     program                        shift and go to state 1
     function_call                  shift and go to state 2
@@ -57,113 +58,109 @@ state 2
 
 state 3
 
-    (2) function_call -> IDENTIFIER . LPAREN RPAREN
-    (3) function_call -> IDENTIFIER . LPAREN arguments RPAREN
+    (2) function_call -> ID . LPAREN argument_list RPAREN
 
     LPAREN          shift and go to state 4
 
 
 state 4
 
-    (2) function_call -> IDENTIFIER LPAREN . RPAREN
-    (3) function_call -> IDENTIFIER LPAREN . arguments RPAREN
-    (4) arguments -> . arguments COMMA expression
-    (5) arguments -> . expression
-    (6) expression -> . IDENTIFIER
+    (2) function_call -> ID LPAREN . argument_list RPAREN
+    (3) argument_list -> .
+    (4) argument_list -> . arguments
+    (5) arguments -> . arguments COMMA expression
+    (6) arguments -> . expression
     (7) expression -> . NUMBER
-    (8) expression -> . function_call
-    (2) function_call -> . IDENTIFIER LPAREN RPAREN
-    (3) function_call -> . IDENTIFIER LPAREN arguments RPAREN
+    (8) expression -> . ID
+    (9) expression -> . function_call
+    (2) function_call -> . ID LPAREN argument_list RPAREN
 
-    RPAREN          shift and go to state 6
-    IDENTIFIER      shift and go to state 5
+    RPAREN          reduce using rule 3 (argument_list -> .)
     NUMBER          shift and go to state 9
+    ID              shift and go to state 5
 
+    argument_list                  shift and go to state 6
     arguments                      shift and go to state 7
     expression                     shift and go to state 8
     function_call                  shift and go to state 10
 
 state 5
 
-    (6) expression -> IDENTIFIER .
-    (2) function_call -> IDENTIFIER . LPAREN RPAREN
-    (3) function_call -> IDENTIFIER . LPAREN arguments RPAREN
+    (8) expression -> ID .
+    (2) function_call -> ID . LPAREN argument_list RPAREN
 
-    RPAREN          reduce using rule 6 (expression -> IDENTIFIER .)
-    COMMA           reduce using rule 6 (expression -> IDENTIFIER .)
+    COMMA           reduce using rule 8 (expression -> ID .)
+    RPAREN          reduce using rule 8 (expression -> ID .)
     LPAREN          shift and go to state 4
 
 
 state 6
 
-    (2) function_call -> IDENTIFIER LPAREN RPAREN .
+    (2) function_call -> ID LPAREN argument_list . RPAREN
 
-    $end            reduce using rule 2 (function_call -> IDENTIFIER LPAREN RPAREN .)
-    RPAREN          reduce using rule 2 (function_call -> IDENTIFIER LPAREN RPAREN .)
-    COMMA           reduce using rule 2 (function_call -> IDENTIFIER LPAREN RPAREN .)
+    RPAREN          shift and go to state 11
 
 
 state 7
 
-    (3) function_call -> IDENTIFIER LPAREN arguments . RPAREN
-    (4) arguments -> arguments . COMMA expression
+    (4) argument_list -> arguments .
+    (5) arguments -> arguments . COMMA expression
 
-    RPAREN          shift and go to state 11
+    RPAREN          reduce using rule 4 (argument_list -> arguments .)
     COMMA           shift and go to state 12
 
 
 state 8
 
-    (5) arguments -> expression .
+    (6) arguments -> expression .
 
-    RPAREN          reduce using rule 5 (arguments -> expression .)
-    COMMA           reduce using rule 5 (arguments -> expression .)
+    COMMA           reduce using rule 6 (arguments -> expression .)
+    RPAREN          reduce using rule 6 (arguments -> expression .)
 
 
 state 9
 
     (7) expression -> NUMBER .
 
-    RPAREN          reduce using rule 7 (expression -> NUMBER .)
     COMMA           reduce using rule 7 (expression -> NUMBER .)
+    RPAREN          reduce using rule 7 (expression -> NUMBER .)
 
 
 state 10
 
-    (8) expression -> function_call .
+    (9) expression -> function_call .
 
-    RPAREN          reduce using rule 8 (expression -> function_call .)
-    COMMA           reduce using rule 8 (expression -> function_call .)
+    COMMA           reduce using rule 9 (expression -> function_call .)
+    RPAREN          reduce using rule 9 (expression -> function_call .)
 
 
 state 11
 
-    (3) function_call -> IDENTIFIER LPAREN arguments RPAREN .
+    (2) function_call -> ID LPAREN argument_list RPAREN .
 
-    $end            reduce using rule 3 (function_call -> IDENTIFIER LPAREN arguments RPAREN .)
-    RPAREN          reduce using rule 3 (function_call -> IDENTIFIER LPAREN arguments RPAREN .)
-    COMMA           reduce using rule 3 (function_call -> IDENTIFIER LPAREN arguments RPAREN .)
+    $end            reduce using rule 2 (function_call -> ID LPAREN argument_list RPAREN .)
+    COMMA           reduce using rule 2 (function_call -> ID LPAREN argument_list RPAREN .)
+    RPAREN          reduce using rule 2 (function_call -> ID LPAREN argument_list RPAREN .)
 
 
 state 12
 
-    (4) arguments -> arguments COMMA . expression
-    (6) expression -> . IDENTIFIER
+    (5) arguments -> arguments COMMA . expression
     (7) expression -> . NUMBER
-    (8) expression -> . function_call
-    (2) function_call -> . IDENTIFIER LPAREN RPAREN
-    (3) function_call -> . IDENTIFIER LPAREN arguments RPAREN
+    (8) expression -> . ID
+    (9) expression -> . function_call
+    (2) function_call -> . ID LPAREN argument_list RPAREN
 
-    IDENTIFIER      shift and go to state 5
     NUMBER          shift and go to state 9
+    ID              shift and go to state 5
 
     expression                     shift and go to state 13
     function_call                  shift and go to state 10
 
 state 13
 
-    (4) arguments -> arguments COMMA expression .
+    (5) arguments -> arguments COMMA expression .
 
-    RPAREN          reduce using rule 4 (arguments -> arguments COMMA expression .)
-    COMMA           reduce using rule 4 (arguments -> arguments COMMA expression .)
+    COMMA           reduce using rule 5 (arguments -> arguments COMMA expression .)
+    RPAREN          reduce using rule 5 (arguments -> arguments COMMA expression .)
 

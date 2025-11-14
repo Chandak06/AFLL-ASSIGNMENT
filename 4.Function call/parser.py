@@ -2,33 +2,43 @@ import ply.yacc as yacc
 from lexer import tokens
 
 def p_program(p):
-    '''program : function_call'''
-    p[0]=p[1]
+    "program : function_call"
+    p[0] = p[1]
     print("Valid function call:", p[1])
 
 def p_function_call(p):
-    '''function_call : IDENTIFIER LPAREN RPAREN
-                     | IDENTIFIER LPAREN arguments RPAREN'''
-    if len(p) == 4:
-        p[0] = ('call', p[1], [])
+    "function_call : ID LPAREN argument_list RPAREN"
+    p[0] = ('call', p[1], p[3])
+
+def p_argument_list(p):
+    """
+    argument_list : 
+                  | arguments
+    """
+    if len(p) == 1:
+        p[0] = []
     else:
-        p[0] = ('call', p[1], p[3])
+        p[0] = p[1]
 
 def p_arguments(p):
-    '''arguments : arguments COMMA expression
-                 | expression'''
+    """
+    arguments : arguments COMMA expression
+              | expression
+    """
     if len(p) == 4:
         p[0] = p[1] + [p[3]]
     else:
         p[0] = [p[1]]
 
 def p_expression(p):
-    '''expression : IDENTIFIER
-                  | NUMBER
-                  | function_call'''
+    """
+    expression : NUMBER
+               | ID
+               | function_call
+    """
     p[0] = p[1]
 
 def p_error(p):
-    print(" Syntax error!")
+    print("Syntax error!")
 
 parser = yacc.yacc()

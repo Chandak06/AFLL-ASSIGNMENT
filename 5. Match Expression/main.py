@@ -1,7 +1,7 @@
 from parser import parser
 
 if __name__ == "__main__":
-    print("Welcome to the Match Expression Parser.")
+    print("Welcome to the Match Expression Parser. ex :  match x { 1=> foo() , _=> bar(10,x)} (VALID) ")
     print("Type 'quit' or 'exit;' to quit.\n")
 
     while True:

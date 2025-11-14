@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'programARROW COMMA IDENTIFIER LBRACE LPAREN MATCH NUMBER RBRACE RPAREN UNDERSCOREprogram : match_expressionmatch_expression : MATCH expression LBRACE match_arms RBRACEmatch_arms : match_arms match_arm\n| match_armmatch_arm : pattern ARROW expression\n| pattern ARROW expression COMMApattern : IDENTIFIER\n| UNDERSCORE\n| NUMBERexpression : IDENTIFIER\n| NUMBER\n| function_call\n| match_expressionfunction_call : IDENTIFIER LPAREN arguments RPAREN\n| IDENTIFIER LPAREN RPARENarguments : arguments COMMA expression\n| expression'
+_lr_signature = 'programARROW COMMA ID LBRACE LPAREN MATCH NUMBER RBRACE RPAREN UNDERSCOREprogram : match_expressionmatch_expression : MATCH expression LBRACE match_arms RBRACE\nmatch_arms : match_arms match_arm\n           | match_arm\n\nmatch_arm : pattern ARROW expression COMMA\n          | pattern ARROW expression\n\npattern : ID\n        | NUMBER\n        | UNDERSCORE\n\nexpression : NUMBER\n           | ID\nexpression : function_callexpression : match_expression\nfunction_call : ID LPAREN RPAREN\n              | ID LPAREN arguments RPAREN\n\narguments : arguments COMMA expression\n          | expression\n'
     
-_lr_action_items = {'MATCH':([0,3,10,22,24,],[3,3,3,3,3,]),'$end':([1,2,20,],[0,-1,-2,]),'IDENTIFIER':([3,5,6,7,8,9,10,11,12,18,20,21,22,23,24,25,27,],[5,-10,-11,-12,-13,14,5,14,-4,-15,-2,-3,5,-14,5,-5,-6,]),'NUMBER':([3,5,6,7,8,9,10,11,12,18,20,21,22,23,24,25,27,],[6,-10,-11,-12,-13,16,6,16,-4,-15,-2,-3,6,-14,6,-5,-6,]),'LBRACE':([4,5,6,7,8,18,20,23,],[9,-10,-11,-12,-13,-15,-2,-14,]),'RPAREN':([5,6,7,8,10,17,18,19,20,23,26,],[-10,-11,-12,-13,18,23,-15,-17,-2,-14,-16,]),'COMMA':([5,6,7,8,17,18,19,20,23,25,26,],[-10,-11,-12,-13,24,-15,-17,-2,-14,27,-16,]),'RBRACE':([5,6,7,8,11,12,18,20,21,23,25,27,],[-10,-11,-12,-13,20,-4,-15,-2,-3,-14,-5,-6,]),'UNDERSCORE':([5,6,7,8,9,11,12,18,20,21,23,25,27,],[-10,-11,-12,-13,15,15,-4,-15,-2,-3,-14,-5,-6,]),'LPAREN':([5,],[10,]),'ARROW':([13,14,15,16,],[22,-7,-8,-9,]),}
+_lr_action_items = {'MATCH':([0,3,10,22,24,],[3,3,3,3,3,]),'$end':([1,2,20,],[0,-1,-2,]),'NUMBER':([3,5,6,7,8,9,10,11,12,17,20,21,22,23,24,25,27,],[5,-10,-11,-12,-13,15,5,15,-4,-14,-2,-3,5,-15,5,-6,-5,]),'ID':([3,5,6,7,8,9,10,11,12,17,20,21,22,23,24,25,27,],[6,-10,-11,-12,-13,14,6,14,-4,-14,-2,-3,6,-15,6,-6,-5,]),'LBRACE':([4,5,6,7,8,17,20,23,],[9,-10,-11,-12,-13,-14,-2,-15,]),'RPAREN':([5,6,7,8,10,17,18,19,20,23,26,],[-10,-11,-12,-13,17,-14,23,-17,-2,-15,-16,]),'COMMA':([5,6,7,8,17,18,19,20,23,25,26,],[-10,-11,-12,-13,-14,24,-17,-2,-15,27,-16,]),'RBRACE':([5,6,7,8,11,12,17,20,21,23,25,27,],[-10,-11,-12,-13,20,-4,-14,-2,-3,-15,-6,-5,]),'UNDERSCORE':([5,6,7,8,9,11,12,17,20,21,23,25,27,],[-10,-11,-12,-13,16,16,-4,-14,-2,-3,-15,-6,-5,]),'LPAREN':([6,],[10,]),'ARROW':([13,14,15,16,],[22,-7,-8,-9,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'match_expression':([0,3,10,22,24,],[2,8,8,8,8,]),'expression':([3,10,22,24,],[4,19,25,26,]),'function_call':([3,10,22,24,],[7,7,7,7,]),'match_arms':([9,],[11,]),'match_arm':([9,11,],[12,21,]),'pattern':([9,11,],[13,13,]),'arguments':([10,],[17,]),}
+_lr_goto_items = {'program':([0,],[1,]),'match_expression':([0,3,10,22,24,],[2,8,8,8,8,]),'expression':([3,10,22,24,],[4,19,25,26,]),'function_call':([3,10,22,24,],[7,7,7,7,]),'match_arms':([9,],[11,]),'match_arm':([9,11,],[12,21,]),'pattern':([9,11,],[13,13,]),'arguments':([10,],[18,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -29,19 +29,19 @@ _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
   ('program -> match_expression','program',1,'p_program','parser.py',7),
   ('match_expression -> MATCH expression LBRACE match_arms RBRACE','match_expression',5,'p_match_expression','parser.py',12),
-  ('match_arms -> match_arms match_arm','match_arms',2,'p_match_arms','parser.py',16),
-  ('match_arms -> match_arm','match_arms',1,'p_match_arms','parser.py',17),
-  ('match_arm -> pattern ARROW expression','match_arm',3,'p_match_arm','parser.py',24),
-  ('match_arm -> pattern ARROW expression COMMA','match_arm',4,'p_match_arm','parser.py',25),
-  ('pattern -> IDENTIFIER','pattern',1,'p_pattern','parser.py',29),
-  ('pattern -> UNDERSCORE','pattern',1,'p_pattern','parser.py',30),
-  ('pattern -> NUMBER','pattern',1,'p_pattern','parser.py',31),
-  ('expression -> IDENTIFIER','expression',1,'p_expression','parser.py',35),
-  ('expression -> NUMBER','expression',1,'p_expression','parser.py',36),
-  ('expression -> function_call','expression',1,'p_expression','parser.py',37),
-  ('expression -> match_expression','expression',1,'p_expression','parser.py',38),
-  ('function_call -> IDENTIFIER LPAREN arguments RPAREN','function_call',4,'p_function_call','parser.py',42),
-  ('function_call -> IDENTIFIER LPAREN RPAREN','function_call',3,'p_function_call','parser.py',43),
-  ('arguments -> arguments COMMA expression','arguments',3,'p_arguments','parser.py',50),
-  ('arguments -> expression','arguments',1,'p_arguments','parser.py',51),
+  ('match_arms -> match_arms match_arm','match_arms',2,'p_match_arms','parser.py',17),
+  ('match_arms -> match_arm','match_arms',1,'p_match_arms','parser.py',18),
+  ('match_arm -> pattern ARROW expression COMMA','match_arm',4,'p_match_arm','parser.py',27),
+  ('match_arm -> pattern ARROW expression','match_arm',3,'p_match_arm','parser.py',28),
+  ('pattern -> ID','pattern',1,'p_pattern','parser.py',34),
+  ('pattern -> NUMBER','pattern',1,'p_pattern','parser.py',35),
+  ('pattern -> UNDERSCORE','pattern',1,'p_pattern','parser.py',36),
+  ('expression -> NUMBER','expression',1,'p_expression_base','parser.py',42),
+  ('expression -> ID','expression',1,'p_expression_base','parser.py',43),
+  ('expression -> function_call','expression',1,'p_expression_call','parser.py',48),
+  ('expression -> match_expression','expression',1,'p_expression_match','parser.py',52),
+  ('function_call -> ID LPAREN RPAREN','function_call',3,'p_function_call','parser.py',57),
+  ('function_call -> ID LPAREN arguments RPAREN','function_call',4,'p_function_call','parser.py',58),
+  ('arguments -> arguments COMMA expression','arguments',3,'p_arguments','parser.py',67),
+  ('arguments -> expression','arguments',1,'p_arguments','parser.py',68),
 ]

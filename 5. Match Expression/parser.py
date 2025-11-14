@@ -4,51 +4,69 @@ from lexer import tokens
 start = 'program'
 
 def p_program(p):
-    '''program : match_expression'''
+    "program : match_expression"
+    print("Valid Match Expression:", p[1])
     p[0] = p[1]
-    print("\n Valid Match Expression (AST Output):")
 
 def p_match_expression(p):
-    '''match_expression : MATCH expression LBRACE match_arms RBRACE'''
+    "match_expression : MATCH expression LBRACE match_arms RBRACE"
     p[0] = ('match', p[2], p[4])
 
 def p_match_arms(p):
-    '''match_arms : match_arms match_arm
-                  | match_arm'''
+    """
+    match_arms : match_arms match_arm
+               | match_arm
+    """
     if len(p) == 3:
         p[0] = p[1] + [p[2]]
     else:
         p[0] = [p[1]]
 
 def p_match_arm(p):
-    '''match_arm : pattern ARROW expression
-                 | pattern ARROW expression COMMA'''
+    """
+    match_arm : pattern ARROW expression COMMA
+              | pattern ARROW expression
+    """
     p[0] = (p[1], p[3])
 
 def p_pattern(p):
-    '''pattern : IDENTIFIER
-               | UNDERSCORE
-               | NUMBER'''
+    """
+    pattern : ID
+            | NUMBER
+            | UNDERSCORE
+    """
     p[0] = p[1]
 
-def p_expression(p):
-    '''expression : IDENTIFIER
-                  | NUMBER
-                  | function_call
-                  | match_expression'''
+def p_expression_base(p):
+    """
+    expression : NUMBER
+               | ID
+    """
+    p[0] = p[1]
+
+def p_expression_call(p):
+    "expression : function_call"
+    p[0] = p[1]
+
+def p_expression_match(p):
+    "expression : match_expression"
     p[0] = p[1]
 
 def p_function_call(p):
-    '''function_call : IDENTIFIER LPAREN arguments RPAREN
-                     | IDENTIFIER LPAREN RPAREN'''
-    if len(p) == 5:
-        p[0] = ('call', p[1], p[3])
-    else:
+    """
+    function_call : ID LPAREN RPAREN
+                  | ID LPAREN arguments RPAREN
+    """
+    if len(p) == 4:
         p[0] = ('call', p[1], [])
+    else:
+        p[0] = ('call', p[1], p[3])
 
 def p_arguments(p):
-    '''arguments : arguments COMMA expression
-                 | expression'''
+    """
+    arguments : arguments COMMA expression
+              | expression
+    """
     if len(p) == 4:
         p[0] = p[1] + [p[3]]
     else:
@@ -56,7 +74,7 @@ def p_arguments(p):
 
 def p_error(p):
     if p:
-        print(f"Syntax error at token '{p.value}' (type: {p.type}, line: {p.lineno})")
+        print(f"Syntax error at '{p.value}'")
     else:
         print("Syntax error at EOF")
 

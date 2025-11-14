@@ -7,7 +7,7 @@ tokens = (
     'ASSIGN',
     'SEMICOLON',
     'LPAREN', 'RPAREN',
-    'LET',
+    'LET','MUT'
 )
 
 
@@ -22,6 +22,7 @@ t_RPAREN   = r'\)'
 
 reserved = {
     'let': 'LET',
+    'mut': 'MUT'
 }
 
 def t_ID(t):

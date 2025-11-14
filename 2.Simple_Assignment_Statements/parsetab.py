@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'statementASSIGN ID LET NUMBER SEMICOLONstatements : statements statementstatements : statementstatement : ID ASSIGN NUMBER SEMICOLONstatement : LET ID ASSIGN NUMBER SEMICOLON'
+_lr_signature = 'statementsASSIGN ID LET MUT NUMBER SEMICOLONstatements : statements statementstatements : statementstatement : LET ID ASSIGN NUMBER SEMICOLONstatement : LET MUT ID ASSIGN NUMBER SEMICOLONstatement : ID ASSIGN NUMBER SEMICOLON'
     
-_lr_action_items = {'ID':([0,3,],[2,5,]),'LET':([0,],[3,]),'$end':([1,8,10,],[0,-3,-4,]),'ASSIGN':([2,5,],[4,7,]),'NUMBER':([4,7,],[6,9,]),'SEMICOLON':([6,9,],[8,10,]),}
+_lr_action_items = {'LET':([0,1,2,5,14,15,17,],[3,3,-2,-1,-5,-3,-4,]),'ID':([0,1,2,3,5,7,14,15,17,],[4,4,-2,6,-1,10,-5,-3,-4,]),'$end':([1,2,5,14,15,17,],[0,-2,-1,-5,-3,-4,]),'MUT':([3,],[7,]),'ASSIGN':([4,6,10,],[8,9,13,]),'NUMBER':([8,9,13,],[11,12,16,]),'SEMICOLON':([11,12,16,],[14,15,17,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),}
+_lr_goto_items = {'statements':([0,],[1,]),'statement':([0,1,],[2,5,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,9 +26,10 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> statement","S'",1,None,None,None),
+  ("S' -> statements","S'",1,None,None,None),
   ('statements -> statements statement','statements',2,'p_statements_multiple','parser.py',8),
   ('statements -> statement','statements',1,'p_statements_single','parser.py',12),
-  ('statement -> ID ASSIGN NUMBER SEMICOLON','statement',4,'p_statement_assign','parser.py',16),
-  ('statement -> LET ID ASSIGN NUMBER SEMICOLON','statement',5,'p_statement_let_assign','parser.py',21),
+  ('statement -> LET ID ASSIGN NUMBER SEMICOLON','statement',5,'p_statement_let','parser.py',16),
+  ('statement -> LET MUT ID ASSIGN NUMBER SEMICOLON','statement',6,'p_statement_let_mut','parser.py',21),
+  ('statement -> ID ASSIGN NUMBER SEMICOLON','statement',4,'p_statement_assign','parser.py',26),
 ]

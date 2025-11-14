@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'COMMA IDENTIFIER LPAREN NUMBER RPARENprogram : function_callfunction_call : IDENTIFIER LPAREN RPAREN\n| IDENTIFIER LPAREN arguments RPARENarguments : arguments COMMA expression\n| expressionexpression : IDENTIFIER\n| NUMBER\n| function_call'
+_lr_signature = 'COMMA ID LPAREN NUMBER RPARENprogram : function_callfunction_call : ID LPAREN argument_list RPAREN\nargument_list : \n              | arguments\n\narguments : arguments COMMA expression\n          | expression\n\nexpression : NUMBER\n           | ID\n           | function_call\n'
     
-_lr_action_items = {'IDENTIFIER':([0,4,12,],[3,5,5,]),'$end':([1,2,6,11,],[0,-1,-2,-3,]),'LPAREN':([3,5,],[4,4,]),'RPAREN':([4,5,6,7,8,9,10,11,13,],[6,-6,-2,11,-5,-7,-8,-3,-4,]),'NUMBER':([4,12,],[9,9,]),'COMMA':([5,6,7,8,9,10,11,13,],[-6,-2,12,-5,-7,-8,-3,-4,]),}
+_lr_action_items = {'ID':([0,4,12,],[3,5,5,]),'$end':([1,2,11,],[0,-1,-2,]),'LPAREN':([3,5,],[4,4,]),'RPAREN':([4,5,6,7,8,9,10,11,13,],[-3,-8,11,-4,-6,-7,-9,-2,-5,]),'NUMBER':([4,12,],[9,9,]),'COMMA':([5,7,8,9,10,11,13,],[-8,12,-6,-7,-9,-2,-5,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'function_call':([0,4,12,],[2,10,10,]),'arguments':([4,],[7,]),'expression':([4,12,],[8,13,]),}
+_lr_goto_items = {'program':([0,],[1,]),'function_call':([0,4,12,],[2,10,10,]),'argument_list':([4,],[6,]),'arguments':([4,],[7,]),'expression':([4,12,],[8,13,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -28,11 +28,12 @@ del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
   ('program -> function_call','program',1,'p_program','parser.py',5),
-  ('function_call -> IDENTIFIER LPAREN RPAREN','function_call',3,'p_function_call','parser.py',9),
-  ('function_call -> IDENTIFIER LPAREN arguments RPAREN','function_call',4,'p_function_call','parser.py',10),
-  ('arguments -> arguments COMMA expression','arguments',3,'p_arguments','parser.py',17),
-  ('arguments -> expression','arguments',1,'p_arguments','parser.py',18),
-  ('expression -> IDENTIFIER','expression',1,'p_expression','parser.py',25),
-  ('expression -> NUMBER','expression',1,'p_expression','parser.py',26),
-  ('expression -> function_call','expression',1,'p_expression','parser.py',27),
+  ('function_call -> ID LPAREN argument_list RPAREN','function_call',4,'p_function_call','parser.py',10),
+  ('argument_list -> <empty>','argument_list',0,'p_argument_list','parser.py',15),
+  ('argument_list -> arguments','argument_list',1,'p_argument_list','parser.py',16),
+  ('arguments -> arguments COMMA expression','arguments',3,'p_arguments','parser.py',25),
+  ('arguments -> expression','arguments',1,'p_arguments','parser.py',26),
+  ('expression -> NUMBER','expression',1,'p_expression','parser.py',35),
+  ('expression -> ID','expression',1,'p_expression','parser.py',36),
+  ('expression -> function_call','expression',1,'p_expression','parser.py',37),
 ]

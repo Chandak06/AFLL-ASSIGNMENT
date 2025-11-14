@@ -1,33 +1,39 @@
 import ply.lex as lex
 
-tokens = (
-    'IF', 'ELSE',
-    'LPAREN', 'RPAREN',
-    'LBRACE', 'RBRACE',
-    'ID', 'NUMBER',
-    'ASSIGN', 'SEMICOLON',
-    'GT', 'LT', 'GE', 'LE', 'EQ', 'NE'
-)
-
 reserved = {
     'if': 'IF',
     'else': 'ELSE',
     'let': 'LET',
+    'mut': 'MUT'
 }
 
-t_ASSIGN = r'='
-t_GT     = r'>'
-t_LT     = r'<'
-t_GE     = r'>='
-t_LE     = r'<='
-t_EQ     = r'=='
-t_NE     = r'!='
+tokens = [
+    'LPAREN', 'RPAREN',
+    'LBRACE', 'RBRACE',
+    'ID', 'NUMBER',
+    'ASSIGN', 'SEMICOLON',
+    'GT', 'LT', 'GE', 'LE', 'EQ', 'NE',
+    'PLUS', 'MINUS', 'TIMES', 'DIVIDE'
+] + list(reserved.values())
 
-t_LPAREN   = r'\('
-t_RPAREN   = r'\)'
-t_LBRACE   = r'\{'
-t_RBRACE   = r'\}'
-t_SEMICOLON = r';'
+t_ASSIGN     = r'='
+t_GT         = r'>'
+t_LT         = r'<'
+t_GE         = r'>='
+t_LE         = r'<='
+t_EQ         = r'=='
+t_NE         = r'!='
+
+t_PLUS       = r'\+'
+t_MINUS      = r'-'
+t_TIMES      = r'\*'
+t_DIVIDE     = r'/'
+
+t_LPAREN     = r'\('
+t_RPAREN     = r'\)'
+t_LBRACE     = r'\{'
+t_RBRACE     = r'\}'
+t_SEMICOLON  = r';'
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'

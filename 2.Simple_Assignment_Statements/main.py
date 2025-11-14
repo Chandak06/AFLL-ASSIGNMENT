@@ -2,7 +2,7 @@ from lexer import lexer
 from parser import parser
 
 if __name__ == "__main__":
-    print("Rust-style Simple Assignment Evaluator")
+    print("Rust-style Simple Assignment Evaluator; ex : let mut x = 10 ;let y = 5;")
     print("Type 'exit;' to quit.\n")
 
     while True:

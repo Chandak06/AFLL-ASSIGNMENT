@@ -2,7 +2,7 @@ from lexer import lexer
 from parser import parser
 
 if __name__ == "__main__":
-    print("Rust-style If-Else Evaluator")
+    print("Rust-style If-Else Evaluator ; ex : let mut x = 5 ; let y = 10 ; if x > y {x=100;} else {x =10;}")
     print("Type 'exit;' to quit.\n")
 
     while True:

@@ -7,37 +7,37 @@ Rule 1     program -> match_expression
 Rule 2     match_expression -> MATCH expression LBRACE match_arms RBRACE
 Rule 3     match_arms -> match_arms match_arm
 Rule 4     match_arms -> match_arm
-Rule 5     match_arm -> pattern ARROW expression
-Rule 6     match_arm -> pattern ARROW expression COMMA
-Rule 7     pattern -> IDENTIFIER
-Rule 8     pattern -> UNDERSCORE
-Rule 9     pattern -> NUMBER
-Rule 10    expression -> IDENTIFIER
-Rule 11    expression -> NUMBER
+Rule 5     match_arm -> pattern ARROW expression COMMA
+Rule 6     match_arm -> pattern ARROW expression
+Rule 7     pattern -> ID
+Rule 8     pattern -> NUMBER
+Rule 9     pattern -> UNDERSCORE
+Rule 10    expression -> NUMBER
+Rule 11    expression -> ID
 Rule 12    expression -> function_call
 Rule 13    expression -> match_expression
-Rule 14    function_call -> IDENTIFIER LPAREN arguments RPAREN
-Rule 15    function_call -> IDENTIFIER LPAREN RPAREN
+Rule 14    function_call -> ID LPAREN RPAREN
+Rule 15    function_call -> ID LPAREN arguments RPAREN
 Rule 16    arguments -> arguments COMMA expression
 Rule 17    arguments -> expression
 
 Terminals, with rules where they appear
 
 ARROW                : 5 6
-COMMA                : 6 16
-IDENTIFIER           : 7 10 14 15
+COMMA                : 5 16
+ID                   : 7 11 14 15
 LBRACE               : 2
 LPAREN               : 14 15
 MATCH                : 2
-NUMBER               : 9 11
+NUMBER               : 8 10
 RBRACE               : 2
 RPAREN               : 14 15
-UNDERSCORE           : 8
+UNDERSCORE           : 9
 error                : 
 
 Nonterminals, with rules where they appear
 
-arguments            : 14 16
+arguments            : 15 16
 expression           : 2 5 6 16 17
 function_call        : 12
 match_arm            : 3 4
@@ -75,16 +75,16 @@ state 2
 state 3
 
     (2) match_expression -> MATCH . expression LBRACE match_arms RBRACE
-    (10) expression -> . IDENTIFIER
-    (11) expression -> . NUMBER
+    (10) expression -> . NUMBER
+    (11) expression -> . ID
     (12) expression -> . function_call
     (13) expression -> . match_expression
-    (14) function_call -> . IDENTIFIER LPAREN arguments RPAREN
-    (15) function_call -> . IDENTIFIER LPAREN RPAREN
+    (14) function_call -> . ID LPAREN RPAREN
+    (15) function_call -> . ID LPAREN arguments RPAREN
     (2) match_expression -> . MATCH expression LBRACE match_arms RBRACE
 
-    IDENTIFIER      shift and go to state 5
-    NUMBER          shift and go to state 6
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 6
     MATCH           shift and go to state 3
 
     expression                     shift and go to state 4
@@ -100,31 +100,31 @@ state 4
 
 state 5
 
-    (10) expression -> IDENTIFIER .
-    (14) function_call -> IDENTIFIER . LPAREN arguments RPAREN
-    (15) function_call -> IDENTIFIER . LPAREN RPAREN
+    (10) expression -> NUMBER .
 
-    LBRACE          reduce using rule 10 (expression -> IDENTIFIER .)
-    RPAREN          reduce using rule 10 (expression -> IDENTIFIER .)
-    COMMA           reduce using rule 10 (expression -> IDENTIFIER .)
-    RBRACE          reduce using rule 10 (expression -> IDENTIFIER .)
-    IDENTIFIER      reduce using rule 10 (expression -> IDENTIFIER .)
-    UNDERSCORE      reduce using rule 10 (expression -> IDENTIFIER .)
-    NUMBER          reduce using rule 10 (expression -> IDENTIFIER .)
-    LPAREN          shift and go to state 10
+    LBRACE          reduce using rule 10 (expression -> NUMBER .)
+    RPAREN          reduce using rule 10 (expression -> NUMBER .)
+    COMMA           reduce using rule 10 (expression -> NUMBER .)
+    RBRACE          reduce using rule 10 (expression -> NUMBER .)
+    ID              reduce using rule 10 (expression -> NUMBER .)
+    NUMBER          reduce using rule 10 (expression -> NUMBER .)
+    UNDERSCORE      reduce using rule 10 (expression -> NUMBER .)
 
 
 state 6
 
-    (11) expression -> NUMBER .
+    (11) expression -> ID .
+    (14) function_call -> ID . LPAREN RPAREN
+    (15) function_call -> ID . LPAREN arguments RPAREN
 
-    LBRACE          reduce using rule 11 (expression -> NUMBER .)
-    RPAREN          reduce using rule 11 (expression -> NUMBER .)
-    COMMA           reduce using rule 11 (expression -> NUMBER .)
-    RBRACE          reduce using rule 11 (expression -> NUMBER .)
-    IDENTIFIER      reduce using rule 11 (expression -> NUMBER .)
-    UNDERSCORE      reduce using rule 11 (expression -> NUMBER .)
-    NUMBER          reduce using rule 11 (expression -> NUMBER .)
+    LBRACE          reduce using rule 11 (expression -> ID .)
+    RPAREN          reduce using rule 11 (expression -> ID .)
+    COMMA           reduce using rule 11 (expression -> ID .)
+    RBRACE          reduce using rule 11 (expression -> ID .)
+    ID              reduce using rule 11 (expression -> ID .)
+    NUMBER          reduce using rule 11 (expression -> ID .)
+    UNDERSCORE      reduce using rule 11 (expression -> ID .)
+    LPAREN          shift and go to state 10
 
 
 state 7
@@ -135,9 +135,9 @@ state 7
     RPAREN          reduce using rule 12 (expression -> function_call .)
     COMMA           reduce using rule 12 (expression -> function_call .)
     RBRACE          reduce using rule 12 (expression -> function_call .)
-    IDENTIFIER      reduce using rule 12 (expression -> function_call .)
-    UNDERSCORE      reduce using rule 12 (expression -> function_call .)
+    ID              reduce using rule 12 (expression -> function_call .)
     NUMBER          reduce using rule 12 (expression -> function_call .)
+    UNDERSCORE      reduce using rule 12 (expression -> function_call .)
 
 
 state 8
@@ -148,9 +148,9 @@ state 8
     RPAREN          reduce using rule 13 (expression -> match_expression .)
     COMMA           reduce using rule 13 (expression -> match_expression .)
     RBRACE          reduce using rule 13 (expression -> match_expression .)
-    IDENTIFIER      reduce using rule 13 (expression -> match_expression .)
-    UNDERSCORE      reduce using rule 13 (expression -> match_expression .)
+    ID              reduce using rule 13 (expression -> match_expression .)
     NUMBER          reduce using rule 13 (expression -> match_expression .)
+    UNDERSCORE      reduce using rule 13 (expression -> match_expression .)
 
 
 state 9
@@ -158,15 +158,15 @@ state 9
     (2) match_expression -> MATCH expression LBRACE . match_arms RBRACE
     (3) match_arms -> . match_arms match_arm
     (4) match_arms -> . match_arm
-    (5) match_arm -> . pattern ARROW expression
-    (6) match_arm -> . pattern ARROW expression COMMA
-    (7) pattern -> . IDENTIFIER
-    (8) pattern -> . UNDERSCORE
-    (9) pattern -> . NUMBER
+    (5) match_arm -> . pattern ARROW expression COMMA
+    (6) match_arm -> . pattern ARROW expression
+    (7) pattern -> . ID
+    (8) pattern -> . NUMBER
+    (9) pattern -> . UNDERSCORE
 
-    IDENTIFIER      shift and go to state 14
-    UNDERSCORE      shift and go to state 15
-    NUMBER          shift and go to state 16
+    ID              shift and go to state 14
+    NUMBER          shift and go to state 15
+    UNDERSCORE      shift and go to state 16
 
     match_arms                     shift and go to state 11
     match_arm                      shift and go to state 12
@@ -174,24 +174,24 @@ state 9
 
 state 10
 
-    (14) function_call -> IDENTIFIER LPAREN . arguments RPAREN
-    (15) function_call -> IDENTIFIER LPAREN . RPAREN
+    (14) function_call -> ID LPAREN . RPAREN
+    (15) function_call -> ID LPAREN . arguments RPAREN
     (16) arguments -> . arguments COMMA expression
     (17) arguments -> . expression
-    (10) expression -> . IDENTIFIER
-    (11) expression -> . NUMBER
+    (10) expression -> . NUMBER
+    (11) expression -> . ID
     (12) expression -> . function_call
     (13) expression -> . match_expression
-    (14) function_call -> . IDENTIFIER LPAREN arguments RPAREN
-    (15) function_call -> . IDENTIFIER LPAREN RPAREN
+    (14) function_call -> . ID LPAREN RPAREN
+    (15) function_call -> . ID LPAREN arguments RPAREN
     (2) match_expression -> . MATCH expression LBRACE match_arms RBRACE
 
-    RPAREN          shift and go to state 18
-    IDENTIFIER      shift and go to state 5
-    NUMBER          shift and go to state 6
+    RPAREN          shift and go to state 17
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 6
     MATCH           shift and go to state 3
 
-    arguments                      shift and go to state 17
+    arguments                      shift and go to state 18
     expression                     shift and go to state 19
     function_call                  shift and go to state 7
     match_expression               shift and go to state 8
@@ -200,16 +200,16 @@ state 11
 
     (2) match_expression -> MATCH expression LBRACE match_arms . RBRACE
     (3) match_arms -> match_arms . match_arm
-    (5) match_arm -> . pattern ARROW expression
-    (6) match_arm -> . pattern ARROW expression COMMA
-    (7) pattern -> . IDENTIFIER
-    (8) pattern -> . UNDERSCORE
-    (9) pattern -> . NUMBER
+    (5) match_arm -> . pattern ARROW expression COMMA
+    (6) match_arm -> . pattern ARROW expression
+    (7) pattern -> . ID
+    (8) pattern -> . NUMBER
+    (9) pattern -> . UNDERSCORE
 
     RBRACE          shift and go to state 20
-    IDENTIFIER      shift and go to state 14
-    UNDERSCORE      shift and go to state 15
-    NUMBER          shift and go to state 16
+    ID              shift and go to state 14
+    NUMBER          shift and go to state 15
+    UNDERSCORE      shift and go to state 16
 
     match_arm                      shift and go to state 21
     pattern                        shift and go to state 13
@@ -219,60 +219,60 @@ state 12
     (4) match_arms -> match_arm .
 
     RBRACE          reduce using rule 4 (match_arms -> match_arm .)
-    IDENTIFIER      reduce using rule 4 (match_arms -> match_arm .)
-    UNDERSCORE      reduce using rule 4 (match_arms -> match_arm .)
+    ID              reduce using rule 4 (match_arms -> match_arm .)
     NUMBER          reduce using rule 4 (match_arms -> match_arm .)
+    UNDERSCORE      reduce using rule 4 (match_arms -> match_arm .)
 
 
 state 13
 
-    (5) match_arm -> pattern . ARROW expression
-    (6) match_arm -> pattern . ARROW expression COMMA
+    (5) match_arm -> pattern . ARROW expression COMMA
+    (6) match_arm -> pattern . ARROW expression
 
     ARROW           shift and go to state 22
 
 
 state 14
 
-    (7) pattern -> IDENTIFIER .
+    (7) pattern -> ID .
 
-    ARROW           reduce using rule 7 (pattern -> IDENTIFIER .)
+    ARROW           reduce using rule 7 (pattern -> ID .)
 
 
 state 15
 
-    (8) pattern -> UNDERSCORE .
+    (8) pattern -> NUMBER .
 
-    ARROW           reduce using rule 8 (pattern -> UNDERSCORE .)
+    ARROW           reduce using rule 8 (pattern -> NUMBER .)
 
 
 state 16
 
-    (9) pattern -> NUMBER .
+    (9) pattern -> UNDERSCORE .
 
-    ARROW           reduce using rule 9 (pattern -> NUMBER .)
+    ARROW           reduce using rule 9 (pattern -> UNDERSCORE .)
 
 
 state 17
 
-    (14) function_call -> IDENTIFIER LPAREN arguments . RPAREN
-    (16) arguments -> arguments . COMMA expression
+    (14) function_call -> ID LPAREN RPAREN .
 
-    RPAREN          shift and go to state 23
-    COMMA           shift and go to state 24
+    LBRACE          reduce using rule 14 (function_call -> ID LPAREN RPAREN .)
+    RPAREN          reduce using rule 14 (function_call -> ID LPAREN RPAREN .)
+    COMMA           reduce using rule 14 (function_call -> ID LPAREN RPAREN .)
+    RBRACE          reduce using rule 14 (function_call -> ID LPAREN RPAREN .)
+    ID              reduce using rule 14 (function_call -> ID LPAREN RPAREN .)
+    NUMBER          reduce using rule 14 (function_call -> ID LPAREN RPAREN .)
+    UNDERSCORE      reduce using rule 14 (function_call -> ID LPAREN RPAREN .)
 
 
 state 18
 
-    (15) function_call -> IDENTIFIER LPAREN RPAREN .
+    (15) function_call -> ID LPAREN arguments . RPAREN
+    (16) arguments -> arguments . COMMA expression
 
-    LBRACE          reduce using rule 15 (function_call -> IDENTIFIER LPAREN RPAREN .)
-    RPAREN          reduce using rule 15 (function_call -> IDENTIFIER LPAREN RPAREN .)
-    COMMA           reduce using rule 15 (function_call -> IDENTIFIER LPAREN RPAREN .)
-    RBRACE          reduce using rule 15 (function_call -> IDENTIFIER LPAREN RPAREN .)
-    IDENTIFIER      reduce using rule 15 (function_call -> IDENTIFIER LPAREN RPAREN .)
-    UNDERSCORE      reduce using rule 15 (function_call -> IDENTIFIER LPAREN RPAREN .)
-    NUMBER          reduce using rule 15 (function_call -> IDENTIFIER LPAREN RPAREN .)
+    RPAREN          shift and go to state 23
+    COMMA           shift and go to state 24
 
 
 state 19
@@ -292,9 +292,9 @@ state 20
     RPAREN          reduce using rule 2 (match_expression -> MATCH expression LBRACE match_arms RBRACE .)
     COMMA           reduce using rule 2 (match_expression -> MATCH expression LBRACE match_arms RBRACE .)
     RBRACE          reduce using rule 2 (match_expression -> MATCH expression LBRACE match_arms RBRACE .)
-    IDENTIFIER      reduce using rule 2 (match_expression -> MATCH expression LBRACE match_arms RBRACE .)
-    UNDERSCORE      reduce using rule 2 (match_expression -> MATCH expression LBRACE match_arms RBRACE .)
+    ID              reduce using rule 2 (match_expression -> MATCH expression LBRACE match_arms RBRACE .)
     NUMBER          reduce using rule 2 (match_expression -> MATCH expression LBRACE match_arms RBRACE .)
+    UNDERSCORE      reduce using rule 2 (match_expression -> MATCH expression LBRACE match_arms RBRACE .)
 
 
 state 21
@@ -302,25 +302,25 @@ state 21
     (3) match_arms -> match_arms match_arm .
 
     RBRACE          reduce using rule 3 (match_arms -> match_arms match_arm .)
-    IDENTIFIER      reduce using rule 3 (match_arms -> match_arms match_arm .)
-    UNDERSCORE      reduce using rule 3 (match_arms -> match_arms match_arm .)
+    ID              reduce using rule 3 (match_arms -> match_arms match_arm .)
     NUMBER          reduce using rule 3 (match_arms -> match_arms match_arm .)
+    UNDERSCORE      reduce using rule 3 (match_arms -> match_arms match_arm .)
 
 
 state 22
 
-    (5) match_arm -> pattern ARROW . expression
-    (6) match_arm -> pattern ARROW . expression COMMA
-    (10) expression -> . IDENTIFIER
-    (11) expression -> . NUMBER
+    (5) match_arm -> pattern ARROW . expression COMMA
+    (6) match_arm -> pattern ARROW . expression
+    (10) expression -> . NUMBER
+    (11) expression -> . ID
     (12) expression -> . function_call
     (13) expression -> . match_expression
-    (14) function_call -> . IDENTIFIER LPAREN arguments RPAREN
-    (15) function_call -> . IDENTIFIER LPAREN RPAREN
+    (14) function_call -> . ID LPAREN RPAREN
+    (15) function_call -> . ID LPAREN arguments RPAREN
     (2) match_expression -> . MATCH expression LBRACE match_arms RBRACE
 
-    IDENTIFIER      shift and go to state 5
-    NUMBER          shift and go to state 6
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 6
     MATCH           shift and go to state 3
 
     expression                     shift and go to state 25
@@ -329,30 +329,30 @@ state 22
 
 state 23
 
-    (14) function_call -> IDENTIFIER LPAREN arguments RPAREN .
+    (15) function_call -> ID LPAREN arguments RPAREN .
 
-    LBRACE          reduce using rule 14 (function_call -> IDENTIFIER LPAREN arguments RPAREN .)
-    RPAREN          reduce using rule 14 (function_call -> IDENTIFIER LPAREN arguments RPAREN .)
-    COMMA           reduce using rule 14 (function_call -> IDENTIFIER LPAREN arguments RPAREN .)
-    RBRACE          reduce using rule 14 (function_call -> IDENTIFIER LPAREN arguments RPAREN .)
-    IDENTIFIER      reduce using rule 14 (function_call -> IDENTIFIER LPAREN arguments RPAREN .)
-    UNDERSCORE      reduce using rule 14 (function_call -> IDENTIFIER LPAREN arguments RPAREN .)
-    NUMBER          reduce using rule 14 (function_call -> IDENTIFIER LPAREN arguments RPAREN .)
+    LBRACE          reduce using rule 15 (function_call -> ID LPAREN arguments RPAREN .)
+    RPAREN          reduce using rule 15 (function_call -> ID LPAREN arguments RPAREN .)
+    COMMA           reduce using rule 15 (function_call -> ID LPAREN arguments RPAREN .)
+    RBRACE          reduce using rule 15 (function_call -> ID LPAREN arguments RPAREN .)
+    ID              reduce using rule 15 (function_call -> ID LPAREN arguments RPAREN .)
+    NUMBER          reduce using rule 15 (function_call -> ID LPAREN arguments RPAREN .)
+    UNDERSCORE      reduce using rule 15 (function_call -> ID LPAREN arguments RPAREN .)
 
 
 state 24
 
     (16) arguments -> arguments COMMA . expression
-    (10) expression -> . IDENTIFIER
-    (11) expression -> . NUMBER
+    (10) expression -> . NUMBER
+    (11) expression -> . ID
     (12) expression -> . function_call
     (13) expression -> . match_expression
-    (14) function_call -> . IDENTIFIER LPAREN arguments RPAREN
-    (15) function_call -> . IDENTIFIER LPAREN RPAREN
+    (14) function_call -> . ID LPAREN RPAREN
+    (15) function_call -> . ID LPAREN arguments RPAREN
     (2) match_expression -> . MATCH expression LBRACE match_arms RBRACE
 
-    IDENTIFIER      shift and go to state 5
-    NUMBER          shift and go to state 6
+    NUMBER          shift and go to state 5
+    ID              shift and go to state 6
     MATCH           shift and go to state 3
 
     expression                     shift and go to state 26
@@ -361,14 +361,14 @@ state 24
 
 state 25
 
-    (5) match_arm -> pattern ARROW expression .
-    (6) match_arm -> pattern ARROW expression . COMMA
+    (5) match_arm -> pattern ARROW expression . COMMA
+    (6) match_arm -> pattern ARROW expression .
 
-    RBRACE          reduce using rule 5 (match_arm -> pattern ARROW expression .)
-    IDENTIFIER      reduce using rule 5 (match_arm -> pattern ARROW expression .)
-    UNDERSCORE      reduce using rule 5 (match_arm -> pattern ARROW expression .)
-    NUMBER          reduce using rule 5 (match_arm -> pattern ARROW expression .)
     COMMA           shift and go to state 27
+    RBRACE          reduce using rule 6 (match_arm -> pattern ARROW expression .)
+    ID              reduce using rule 6 (match_arm -> pattern ARROW expression .)
+    NUMBER          reduce using rule 6 (match_arm -> pattern ARROW expression .)
+    UNDERSCORE      reduce using rule 6 (match_arm -> pattern ARROW expression .)
 
 
 state 26
@@ -381,10 +381,10 @@ state 26
 
 state 27
 
-    (6) match_arm -> pattern ARROW expression COMMA .
+    (5) match_arm -> pattern ARROW expression COMMA .
 
-    RBRACE          reduce using rule 6 (match_arm -> pattern ARROW expression COMMA .)
-    IDENTIFIER      reduce using rule 6 (match_arm -> pattern ARROW expression COMMA .)
-    UNDERSCORE      reduce using rule 6 (match_arm -> pattern ARROW expression COMMA .)
-    NUMBER          reduce using rule 6 (match_arm -> pattern ARROW expression COMMA .)
+    RBRACE          reduce using rule 5 (match_arm -> pattern ARROW expression COMMA .)
+    ID              reduce using rule 5 (match_arm -> pattern ARROW expression COMMA .)
+    NUMBER          reduce using rule 5 (match_arm -> pattern ARROW expression COMMA .)
+    UNDERSCORE      reduce using rule 5 (match_arm -> pattern ARROW expression COMMA .)
 

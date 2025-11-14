@@ -2,104 +2,178 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Grammar
 
-Rule 0     S' -> statement
+Rule 0     S' -> statements
 Rule 1     statements -> statements statement
 Rule 2     statements -> statement
-Rule 3     statement -> ID ASSIGN NUMBER SEMICOLON
-Rule 4     statement -> LET ID ASSIGN NUMBER SEMICOLON
+Rule 3     statement -> LET ID ASSIGN NUMBER SEMICOLON
+Rule 4     statement -> LET MUT ID ASSIGN NUMBER SEMICOLON
+Rule 5     statement -> ID ASSIGN NUMBER SEMICOLON
 
 Terminals, with rules where they appear
 
-ASSIGN               : 3 4
-ID                   : 3 4
-LET                  : 4
-NUMBER               : 3 4
-SEMICOLON            : 3 4
+ASSIGN               : 3 4 5
+ID                   : 3 4 5
+LET                  : 3 4
+MUT                  : 4
+NUMBER               : 3 4 5
+SEMICOLON            : 3 4 5
 error                : 
 
 Nonterminals, with rules where they appear
 
-statement            : 1 2 0
-statements           : 1
+statement            : 1 2
+statements           : 1 0
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . statement
-    (3) statement -> . ID ASSIGN NUMBER SEMICOLON
-    (4) statement -> . LET ID ASSIGN NUMBER SEMICOLON
+    (0) S' -> . statements
+    (1) statements -> . statements statement
+    (2) statements -> . statement
+    (3) statement -> . LET ID ASSIGN NUMBER SEMICOLON
+    (4) statement -> . LET MUT ID ASSIGN NUMBER SEMICOLON
+    (5) statement -> . ID ASSIGN NUMBER SEMICOLON
 
-    ID              shift and go to state 2
     LET             shift and go to state 3
+    ID              shift and go to state 4
 
-    statement                      shift and go to state 1
+    statements                     shift and go to state 1
+    statement                      shift and go to state 2
 
 state 1
 
-    (0) S' -> statement .
+    (0) S' -> statements .
+    (1) statements -> statements . statement
+    (3) statement -> . LET ID ASSIGN NUMBER SEMICOLON
+    (4) statement -> . LET MUT ID ASSIGN NUMBER SEMICOLON
+    (5) statement -> . ID ASSIGN NUMBER SEMICOLON
 
+    LET             shift and go to state 3
+    ID              shift and go to state 4
 
+    statement                      shift and go to state 5
 
 state 2
 
-    (3) statement -> ID . ASSIGN NUMBER SEMICOLON
+    (2) statements -> statement .
 
-    ASSIGN          shift and go to state 4
+    LET             reduce using rule 2 (statements -> statement .)
+    ID              reduce using rule 2 (statements -> statement .)
+    $end            reduce using rule 2 (statements -> statement .)
 
 
 state 3
 
-    (4) statement -> LET . ID ASSIGN NUMBER SEMICOLON
+    (3) statement -> LET . ID ASSIGN NUMBER SEMICOLON
+    (4) statement -> LET . MUT ID ASSIGN NUMBER SEMICOLON
 
-    ID              shift and go to state 5
+    ID              shift and go to state 6
+    MUT             shift and go to state 7
 
 
 state 4
 
-    (3) statement -> ID ASSIGN . NUMBER SEMICOLON
+    (5) statement -> ID . ASSIGN NUMBER SEMICOLON
 
-    NUMBER          shift and go to state 6
+    ASSIGN          shift and go to state 8
 
 
 state 5
 
-    (4) statement -> LET ID . ASSIGN NUMBER SEMICOLON
+    (1) statements -> statements statement .
 
-    ASSIGN          shift and go to state 7
+    LET             reduce using rule 1 (statements -> statements statement .)
+    ID              reduce using rule 1 (statements -> statements statement .)
+    $end            reduce using rule 1 (statements -> statements statement .)
 
 
 state 6
 
-    (3) statement -> ID ASSIGN NUMBER . SEMICOLON
+    (3) statement -> LET ID . ASSIGN NUMBER SEMICOLON
 
-    SEMICOLON       shift and go to state 8
+    ASSIGN          shift and go to state 9
 
 
 state 7
 
-    (4) statement -> LET ID ASSIGN . NUMBER SEMICOLON
+    (4) statement -> LET MUT . ID ASSIGN NUMBER SEMICOLON
 
-    NUMBER          shift and go to state 9
+    ID              shift and go to state 10
 
 
 state 8
 
-    (3) statement -> ID ASSIGN NUMBER SEMICOLON .
+    (5) statement -> ID ASSIGN . NUMBER SEMICOLON
 
-    $end            reduce using rule 3 (statement -> ID ASSIGN NUMBER SEMICOLON .)
+    NUMBER          shift and go to state 11
 
 
 state 9
 
-    (4) statement -> LET ID ASSIGN NUMBER . SEMICOLON
+    (3) statement -> LET ID ASSIGN . NUMBER SEMICOLON
 
-    SEMICOLON       shift and go to state 10
+    NUMBER          shift and go to state 12
 
 
 state 10
 
-    (4) statement -> LET ID ASSIGN NUMBER SEMICOLON .
+    (4) statement -> LET MUT ID . ASSIGN NUMBER SEMICOLON
 
-    $end            reduce using rule 4 (statement -> LET ID ASSIGN NUMBER SEMICOLON .)
+    ASSIGN          shift and go to state 13
+
+
+state 11
+
+    (5) statement -> ID ASSIGN NUMBER . SEMICOLON
+
+    SEMICOLON       shift and go to state 14
+
+
+state 12
+
+    (3) statement -> LET ID ASSIGN NUMBER . SEMICOLON
+
+    SEMICOLON       shift and go to state 15
+
+
+state 13
+
+    (4) statement -> LET MUT ID ASSIGN . NUMBER SEMICOLON
+
+    NUMBER          shift and go to state 16
+
+
+state 14
+
+    (5) statement -> ID ASSIGN NUMBER SEMICOLON .
+
+    LET             reduce using rule 5 (statement -> ID ASSIGN NUMBER SEMICOLON .)
+    ID              reduce using rule 5 (statement -> ID ASSIGN NUMBER SEMICOLON .)
+    $end            reduce using rule 5 (statement -> ID ASSIGN NUMBER SEMICOLON .)
+
+
+state 15
+
+    (3) statement -> LET ID ASSIGN NUMBER SEMICOLON .
+
+    LET             reduce using rule 3 (statement -> LET ID ASSIGN NUMBER SEMICOLON .)
+    ID              reduce using rule 3 (statement -> LET ID ASSIGN NUMBER SEMICOLON .)
+    $end            reduce using rule 3 (statement -> LET ID ASSIGN NUMBER SEMICOLON .)
+
+
+state 16
+
+    (4) statement -> LET MUT ID ASSIGN NUMBER . SEMICOLON
+
+    SEMICOLON       shift and go to state 17
+
+
+state 17
+
+    (4) statement -> LET MUT ID ASSIGN NUMBER SEMICOLON .
+
+    LET             reduce using rule 4 (statement -> LET MUT ID ASSIGN NUMBER SEMICOLON .)
+    ID              reduce using rule 4 (statement -> LET MUT ID ASSIGN NUMBER SEMICOLON .)
+    $end            reduce using rule 4 (statement -> LET MUT ID ASSIGN NUMBER SEMICOLON .)
 
